@@ -1,0 +1,68 @@
+<div class="container p-4">
+    <div class="row">
+        <div class="names-date">
+            <div class="name text-center">
+                Bienvenidos<br>Novios
+            </div>
+            <p class="mt-4 date">Datos iniciales:</p>
+            <div class="coral">
+                <table class="table table-striped">
+                    <tr>
+                        <td>Novios:</td>
+                        <td class="and">{{user.nombre_novio}} y {{user.nombre_novia}}</td>
+                    </tr>
+                    <tr>
+                        <td>Fecha de la Boda:</td>
+                        <td class="and">{{fecha}}</td>
+                    </tr>
+                    <tr>
+                        <td>Invitados:</td>
+                        <td>{{aceptados}}/{{user.cantidad_invitados}} Personas</td>
+                    </tr>
+                    {{#if eventos.length}}
+                    {{#each eventos}}
+                    <tr>
+                        <td>{{tipo}}:</td>
+                        <td>{{hora}}, {{lugar_nombre}}</td>
+                    </tr>
+                    {{/each}}
+                    {{else}}
+                    <tr>
+                        <td colspan="2">No hay eventos</td>
+                    </tr>
+                    {{/if}}
+                </table>
+            </div>
+
+        </div>
+        <br>
+        <div class="row row-cols-1 row-cols-md-1 section-background g-4 mx-auto event">
+            <div class="col mx-auto">
+                <a href="/invitacion/novios/invitaciones" class="link-underline-light text-dark">
+                    <div class="card p-2">
+                        <div class="immm" style="">
+                            <img src="/img/invitacion.png" class="" alt="..." width="60" height="60">
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">Invitaciones</h3>
+                            <p class="card-text">Puedes Gestionar las invitaciones para la boda.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col mx-auto" style="display: none;">
+                <a href="/invitacion/novios/invitados" class="link-underline-light text-dark">
+                    <div class="card p-2">
+                        <div class="immm">
+                            <img src="/img/invitado (1).png" class="" alt="..." width="60" height="60">
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">Invitados</h3>
+                            <p class="card-text">Puedes Gestionar los Invitados para la boda.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

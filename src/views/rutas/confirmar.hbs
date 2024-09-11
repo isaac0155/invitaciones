@@ -1,0 +1,691 @@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flipclock/0.7.8/flipclock.min.css" rel="stylesheet">
+<style>
+     .clock-container {
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: red;
+        }
+
+        /* Estructura con dos filas y las etiquetas centradas encima */
+        .clock-grid {
+            display: grid;
+            grid-template-columns: repeat(2, auto); /* 2 columnas */
+            grid-template-rows: repeat(2, auto); /* 2 filas */
+            gap: 10px;
+            justify-items: center;
+            align-items: center;
+        }
+
+        /* Personaliza el estilo de los dígitos */
+        .flip-clock-wrapper {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Cambiar el color de fondo de los cuadros de números */
+        .flip-clock-wrapper ul {
+            background-color: rgba(255, 255, 255, 0) !important; /* Color de fondo de los cuadros */
+            border-radius: 5px; /* Bordes redondeados */
+        }
+
+        /* Cambiar el tamaño de los cuadros de números */
+        .flip-clock-wrapper ul {
+            width: 30px !important; /* Ajusta el ancho de los cuadros */
+            height: 45px !important; /* Ajusta la altura de los cuadros */
+            background-color: rgba(255, 255, 255, 0) !important; /* Color de fondo de los cuadros */
+            border-radius: 5px; /* Bordes redondeados */
+        }
+
+        /* Cambiar el tamaño de las láminas de los números y el texto */
+        .flip-clock-wrapper ul li a div div.inn {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            background: linear-gradient(to right, #b8860b, #ffd700, #b8860b)!important; /* Color de las láminas de los números */
+            color: white !important; /* Color del texto */
+            font-size: 0.3em !important; /* Tamaño de los números */
+            line-height: 10px !important; /* Alinear verticalmente los números dentro de los cuadros */
+        }
+
+
+        /* Separadores (:), espaciado en píxeles */
+        .divider {
+            font-size: 3em;
+            color: red;
+            margin: 0 50px; /* Aquí ajustas la separación en píxeles */
+        }
+
+        /* Etiquetas encima de cada unidad */
+        .label {
+            font-size: 1em;
+            color: rgb(0, 0, 0);
+            text-align: center;
+        }
+
+        /* Controlar el espaciado entre etiquetas y medidores */
+        .clock-segment {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+
+
+    .golden-text {
+        background: linear-gradient(to right, #b8860b, #ffd700, #b8860b);
+        -webkit-background-clip: text;
+        color: transparent;
+        position: relative;
+        display: inline-block;
+        /* Asegura que el tamaño se ajuste al contenido */
+        overflow: hidden;
+        /* Oculta cualquier desbordamiento de la animación */
+    }
+
+    .golden-text::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        /* Comienza fuera del texto */
+        width: 200%;
+        /* Cubre todo el texto */
+        height: 100%;
+        background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.7), transparent);
+        animation: shineEffect 3s infinite;
+    }
+
+    @keyframes shineEffect {
+        0% {
+            left: -100%;
+            /* Inicia a la izquierda fuera del texto */
+        }
+
+        100% {
+            left: 100%;
+            /* Termina a la derecha fuera del texto */
+        }
+    }
+</style>
+
+<main class="main-content m-0 p-0 main">
+    <header class="header m-0 p-0 rounded">
+        <!-- Add content if needed -->
+    </header>
+    <img src="/img/Recurso 26@4x-8.png" alt="" width="100%"
+        style="margin-top: -20px; position: relative; transform: rotate(180deg);">
+    <div class="names-date mx-auto" style="background: #F9F9F9;">
+        <div class="col-md-7 mx-auto" style="margin-top: -8%;">
+            <img src="/img/nombres.png" class="img-fluid"alt="" style="position: relative;">
+            <!--<img src="/img/flores.png" alt="" width="100%" style="margin-top: -100px; position: relative;">
+            <img src="/img/anillos.png" alt="" width="100">
+            <div class="names dorado" style="text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.207);">
+                Isaac
+                <span class="" style="font-size: 2rem; color: #9CAFB7;">y</span>
+                Lisbeth
+            </div>
+            <div class="golden-text date" style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);">12 de Octubre 2024</div>
+            <img src="/img/flores.png" alt="" width="100%"
+                style="transform: rotate(180deg); position: relative; z-index: 9;">-->
+        </div>
+    </div>
+    <style>
+        #tiempo {
+            color: rgb(18, 0, 109);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 70px;
+            /* Ajusta el ancho para que se centre */
+        }
+
+        .countdown-container {
+            text-align: center;
+            font-size: 25px;
+            font-weight: bold;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            /* Centra el contenido dentro del countdown-container */
+        }
+
+        .time-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .time-label {
+            font-size: 15px;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+    </style>
+    <style>
+        /* CSS para posicionar la imagen */
+        .click-image {
+            position: absolute;
+            top: 20px; /* Ajusta según sea necesario */
+            left: 95%;
+            transform: translateX(-50%);
+        }
+        
+        .button-container {
+            position: relative;
+            display: inline-block;
+        }
+    </style>
+    <img src="/img/Recurso 26@4x-8.png" alt="" width="100%" style="margin-top: -5%;">
+    <div id="content" class="main" style="margin-top: -40px;">
+        <div class="conte" class="main" style="margin-top: -10px;">
+                
+            <div class="section-background mx-auto main">
+                <div class="p-4"></div>
+                <div class="event col-md-6 mx-auto" style="position: relative;">
+                    <br>
+                    <div class="p-4"></div>
+                    <h3><strong>Solo Falta</strong></h3>
+                    <div class="clock-grid mx-auto" style="width: 200px;">
+                        <!-- Días y Horas (fila superior) -->
+                        <div class="clock-segment">
+                            <div class="label">Días</div>
+                            <div class="flip-clock-wrapper" id="days"></div>
+                        </div>
+                        <div class="clock-segment">
+                            <div class="label">Horas</div>
+                            <div class="flip-clock-wrapper" id="hours"></div>
+                        </div>
+                        
+                        <!-- Minutos y Segundos (fila inferior) -->
+                        <div class="clock-segment">
+                            <div class="label">Minutos</div>
+                            <div class="flip-clock-wrapper" id="minutes"></div>
+                        </div>
+                        <div class="clock-segment">
+                            <div class="label">Segundos</div>
+                            <div class="flip-clock-wrapper" id="seconds"></div>
+                        </div>
+                    </div>
+                    <img src="/img/abajo.png" style="transform: rotate(180deg); width: 200px; position: absolute; top: 0; left: 0;"
+                        alt="" class="bordered">
+                    
+    <br>
+                    
+                    <!-- <div id="tiempo" class="mx-auto"></div>
+                        <div class="countdown-container mx-auto">
+                            <div class="time-unit">
+                                <span id="days">--</span>
+                                <span class="time-label text-dark">Días</span>
+                            </div>
+                            <div class="time-unit">
+                                <span id="hours">--</span>
+                                <span class="time-label text-dark">Horas</span>
+                            </div>
+                            <div class="time-unit">
+                                <span id="minutes">--</span>
+                                <span class="time-label text-dark">Minutos</span>
+                            </div>
+                            <div class="time-unit">
+                                <span id="seconds">--</span>
+                                <span class="time-label text-dark">Segundos</span>
+                            </div>
+                        </div>
+                    </div>-->
+                    <div class="col-md-4 mx-auto p-3">
+                        <img src="/img/divide.png" class="img-fluid" alt="">
+                    </div>
+                    <p>[...] Uno que anda solo puede ser vencido, pero dos juntos pueden hacerle frente al
+                        agresor. <br>Y una cuerda
+                        triple no se
+                        rompe facilmente.</p>
+                    <strong class="coral">Eclesiastés 4:12</strong>
+                    <div class="col-md-4 mx-auto p-3">
+                        <img src="/img/divide.png" class="img-fluid" alt="">
+                    </div>
+                    <br>
+                    <h3>
+                        <img class="" style="margin-bottom: 20px;" src="/img/open-book.png" alt="" width="40"><br>
+                        <strong>Discurso Bíblico, </strong>
+                        <strong>1:00 p.m.</strong>
+                        <!--<img style="margin-top: -10px; margin-left: 10px;" src="/img/1300.png" width="30" alt="">-->
+                    </h3>
+                    <div class="d-flex align-items-center mx-auto">
+                        <div class="columna-presencial" style="flex: 1; padding-right: 10px;">
+                            <p><strong>Salón del Reino de los Testigos de Jehová.</strong><br>
+                                Quillacollo, Av. Ernesto Cespedes s/n Entre Gral. Pando y 1° de Mayo.</p>
+                            
+                        </div>
+                        <div class="columna-virtual" style="flex: 1; padding-left: 10px;">
+                            <p><strong>ZOOM:</strong><br>ID de Reunión:<br>473 365 2657 <br>Contraseña:<br>766847</p>
+                        
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mx-auto">
+                        <div class="columna-presencial" style="flex: 1; padding-right: 10px;">
+                                <div class="button-container">
+                                    <!-- Imagen de la mano haciendo clic -->
+                                    <img src="https://cdn-icons-png.flaticon.com/128/1/1402.png" alt="Click Here" width="30" class="click-image">
+                                    <a href="https://maps.app.goo.gl/icc7NycfV5EK2GZA6" target="_blank" class="map-link btn btn-sm btn-dorado">
+                                        <strong>VER UBICACIÓN</strong>
+                                        <img src="/img/ubicacion.png" width="15" style="margin-top: -4px; margin-right: 5px;" alt="">
+                                    </a>
+                                </div>
+                        </div>
+                        <div class="columna-virtual" style="flex: 1; padding-left: 10px;">
+                            <div class="button-container">
+                                <!-- Imagen de la mano haciendo clic -->
+                                <img src="https://cdn-icons-png.flaticon.com/128/1/1402.png" alt="Click Here" width="30" class="click-image">
+                                <a href="https://zoom.us/j/4733652657" target="_blank" class="zoom-link btn btn-sm btn-dorado">
+                                    <strong>LINK DE ZOOM</strong>
+                                    <img src="/img/zoom.png" width="18" style="margin-top: -4px; margin-left: 5px;" alt="">
+                                </a>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    {{#if invitados.length}}
+                    <div class="col-md-4 mx-auto p-3">
+                        <img src="/img/divide.png" class="img-fluid" alt="">
+                    </div>
+                    <br>
+                    <h3>
+                        <img class="" style="margin-bottom: 20px;" src="/img/ballet.png" alt="" width="50"><br>
+                        <strong>Recepción, </strong>
+                        <strong>5:30 p.m.</strong>
+                    </h3>
+                    <h3>
+                    </h3>
+                    <p><strong>LUXOR Eventos y Convenciones.</strong><br> Vinto, Av. Pairumani, Esq. Calle 1.</p>
+                    <p></p>
+                    <div class="button-container" style="position: relative; z-index: 10;">
+                        <!-- Imagen de la mano haciendo clic -->
+                        <img src="https://cdn-icons-png.flaticon.com/128/1/1402.png" alt="Click Here" width="30" class="click-image">
+                        <a href="https://maps.app.goo.gl/9VHrt3SijC2VNivAA" target="_blank" class="map-link btn btn-sm btn-dorado">
+                            <strong>VER UBICACIÓN</strong>
+                            <img src="/img/ubicacion.png" width="18" style="margin-top: -4px; margin-right: 5px; z-index: 0;" alt="">
+                        </a>
+                    </div>
+                    {{else}}
+                    <div class="names-date text-center">
+                        {{#if invitados.length}}
+                        {{else}}
+                        <p class="name mt-5 p-0">{{user.nombre}}</p>
+                        {{/if}}
+                    </div>
+                    {{/if}}
+                    <div class="p-5"></div>
+                    <img src="/img/abajo.png" style="width: 200px; position: absolute; bottom: 0; right: 0; z-index: 5;" alt=""
+                        class="bordered">
+                </div>
+                {{#if invitados.length}}
+                <div class="gold-divider col-md-4 mx-auto"></div>
+                <div class="event col-md-6 mx-auto">
+                    <div class=" mx-auto">
+                        <div class="row mx-auto">
+                            <div class="names-date text-center">
+                                Confirma tu asistencia <img src="/img/cheque.png" width="30" alt=""><br>
+                                <p class="name m-0 p-0">{{user.nombre}}</p>
+                                <hr>
+                            </div>
+                            {{#if invitados.length}}
+                            {{#equals user.estado 'pendiente'}}
+                            <strong class="dorado">{{boda.mensaje_bienvenida}}</strong> <br>
+                            <span class=" text-center">
+                                <strong class="">
+                                    <h2 class="coral">
+                                        Válido para 
+                                        <strong class="text-dark">{{invitados.length}}</strong> 
+                                        persona{{#equals invitados.length 1}}{{else}}s{{/equals}}.
+                                    </h2>
+                                </strong>
+                            </span>
+                            <hr>
+                            <table class="table table-sm table-hover table-bordered stripted bordered">
+                                <thead class="">
+                                    <tr class="table-secondary">
+                                        <th scope="col">#</th>
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each invitados}}
+                                    <tr id="row-{{id}}" onclick="toggleCheckbox('{{id}}', event)">
+                                        <th scope="row">{{increment @index}}</th>
+                                        <td id="name-container-{{id}}">
+                                            {{#equals estado 'confirmado'}}
+                                            <strong class="text-success" id="name-{{id}}">{{nombre}}</strong>
+                                            {{else}}
+                                            {{#equals estado 'pendiente'}}
+                                            <span id="name-{{id}}">{{nombre}}</span>
+                                            {{else}}
+                                            <strong class="text-danger" id="name-{{id}}">{{nombre}}</strong>
+                                            {{/equals}}
+                                            {{/equals}}
+                                        </td>
+                                        <td id="action-container-{{id}}">
+                                            {{#equals estado 'confirmado'}}
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input bg-success" onclick="ver('{{id}}');" type="checkbox" role="switch"
+                                                    id="flexSwitchCheckSuccess-{{id}}" checked>
+                                                <strong class="form-check-label text-success">Asistiré</strong>
+                                            </div>
+                                            {{else}}
+                                            {{#equals estado 'pendiente'}}
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" onclick="ver('{{id}}');" type="checkbox" role="switch"
+                                                    id="flexSwitchCheckSuccess-{{id}}">
+                                                <strong class="form-check-label"><img src="/img/hand.gif" width="30" alt="">
+                                                    Sin Confirmar</strong>
+                                            </div>
+                                            {{else}}
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input bg-danger" onclick="ver('{{id}}');" type="checkbox" role="switch"
+                                                    id="flexSwitchCheckSuccess-{{id}}">
+                                                <strong class="form-check-label text-danger">No Asistiré</strong>
+                                            </div>
+                                            {{/equals}}
+                                            {{/equals}}
+                                        </td>
+
+                                    </tr>
+
+                                    {{else}}
+                                    <p>No hay invitados para esta INVITACION, hable con los NOVIOS.
+                                        <br>
+                                        <a href="https://wa.me/59177404206?text=Hola%Isaac" target="_blank">Hablar con
+                                            el Novio <img src="/img/whatsappn.png" width="20" alt=""></a>
+                                        <a href="https://wa.me/59168541055?text=Hola%Lisbeth" target="_blank">Hablar con
+                                            la Novia <img src="/img/whatsappn.png" width="20" alt=""></a>
+                                    </p>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                            <div class="button-container" style="width: 100%;">
+                                <!-- Imagen de la mano haciendo clic -->
+                                <img src="https://cdn-icons-png.flaticon.com/128/1/1402.png" alt="Click Here" width="30" class="click-image">
+                                <button id="submit" class="btn btn-dorado btn-sm mt-3" onclick="submitForm()"style="width: 100%;">
+                                    <strong>GUARDAR CONFIRMACIÓN</strong>
+                                    <img src="/img/guardar.png" width="18" style="margin-top: -4px; margin-left: 9px;" alt="">
+                                </button>
+                            </div>
+                            <div id="message" class="mt-3"></div>
+                            {{else}}
+                            {{#equals user.estado 'confirmado'}}
+                            <strong class="text-center">
+                                Usted ya a
+                                <span class="text-success">{{user.estado}}</span>
+                                la Invitacion
+                            </strong>
+                            {{else}}
+                            <strong class="text-center">
+                                Usted ya a
+                                <span class="text-danger">{{user.estado}}</span>
+                                la Invitacion
+                            </strong>
+                            {{/equals}}
+                            <table class="table table-sm table-hover table-bordered mt-3">
+                                <thead>
+                                </thead>
+                                <tbody>
+                                    {{#each invitados}}
+                                    <tr id="row-{{id}}" class="action-container" for="-{{id}}">
+                                        <th scope="row">{{increment @index}}</th>
+                                        <td id="name-container-{{id}}">
+                                            <span id="name-{{id}}" for="-{{id}}">{{nombre}}</span>
+                                        </td>
+                                        <td id="action-container-{{id}}">
+                                            {{#equals estado 'confirmado'}}
+                                            <label class="text-success" for="-{{id}}">Asiste</label>
+                                            {{else}}
+                                            {{#equals estado 'pendiente'}}
+                                            <label class="" for="-{{id}}">Sin Confirmar</label>
+                                            {{else}}
+                                            <label class="text-danger" for="-{{id}}">No Asiste</label>
+                                            {{/equals}}
+                                            {{/equals}}
+                                        </td>
+                                    </tr>
+                                    {{else}}
+                                    <p>No hay invitados para esta INVITACION, hable con los NOVIOS.
+                                        <br>
+                                        <a href="https://wa.me/59177404206?text=Hola%Isaac" target="_blank">Hablar con
+                                            el Novio <img src="/img/whatsappn.pmg" width="30" alt=""></a>
+                                        <a href="https://wa.me/59168541055?text=Hola%Lisbeth" target="_blank">Hablar con
+                                            la Novia <img src="/img/whatsappn.pmg" width="30" alt=""></a>
+                                    </p>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                            <div class="text-center text-dark">
+                                <p>Puede comunicarse con los novios si tuvo alguna equivocación.</p>
+                                <div class="call" style="margin-top: 20px;">
+                                    <p>Hablar con: </p>
+                                    <a href="https://wa.me/59177404206?text=Hola%20Isaac" class=""
+                                        style="margin-bottom: 15px; margin-left: 15px; margin-right: 15px;"
+                                        target="_blank">El Novio <img src="/img/whatsappn.png" width="20" alt=""></a>
+                                    <p class="mb-3"> | </p>
+                                    <a href="https://wa.me/59168541055?text=Hola%20Lisbeth" class=""
+                                        style="margin-bottom: 15px; margin-left: 15px;" target="_blank">La Novia <img src="/img/whatsappn.png" width="20" alt=""></a>
+                                </div>
+                            </div>
+                            {{/equals}}
+                            {{else}}
+                            <p>No hay Invitados</p>
+                            <div class="call" style="margin-top: 20px;">
+                                <p>Hablar con: </p>
+                                <a href="https://wa.me/59177404206?text=Hola%20Isaac" class=""
+                                    style="margin-left: 15px; margin-right: 15px;" target="_blank">El Novio</a>
+                                <p class=""> | </p>
+                                <a href="https://wa.me/59168541055?text=Hola%20Lisbeth" class=""
+                                    style="margin-left: 15px;" target="_blank">La Novia</a>
+                            </div>
+                            {{/if}}
+
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
+                <div class="p-5"></div>
+            </div>
+        </div>
+    </div>
+
+    <img src="/img/Recurso 26@4x-8.png" alt="" width="100%"
+        style="margin-top: -50px; position: relative; transform: rotate(180deg);">
+    <!--<img src="/img/Recurso 26@4x-8.png" alt="" width="100%" style="margin-top: -40px; transform: rotate(180deg);">-->
+    <div class="final" style="background-image: url('/img/background2-min.jpg'); margin-top: -80px;">
+        <div class="m-3 mt-5 mx-auto">
+            <div class=" p-3 mx-auto"></div>
+            {{#if invitados.length}}
+            <h3><strong class="coral">Toma en cuenta que:</strong></h3>
+            <div class="mx-auto p-4">
+                <div class="event col-md-6 mx-auto" style="background: #ffffff5e;">
+                    <div class="d-flex align-items-center mx-auto">
+                        <img src="/img/fecha-tope.png" alt="Fecha" width="50" class="me-3">
+                        <p class=""><strong>Debes confirmar antes del 21 de Septiembre</strong></p>
+                    </div>
+                </div>
+                <div class="event col-md-6 m-3 mx-auto" style="background: #ffffff5e;">
+                    <div class="d-flex align-items-center mx-auto">
+                        <img src="/img/vestido-de-novia.png" alt="Vestimenta" width="50" class="me-3">
+                        <p class=""><strong>Código de vestimenta:</strong> Formal.</p>
+                    </div>
+                </div>
+                <div class="event col-md-6 m-3 mx-auto" style="background: #ffffff5e;">
+                    <div class="d-flex align-items-center mx-auto">
+                        <img src="/img/kids.png" alt="Niños" width="50" class="me-3">
+                        <p class="mb-0">Amamos a sus hijos, pero hemos reservado sitios <strong>sólo para Adultos.</strong> Gracias.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {{/if}}
+            <img src="/img/anillos.png" alt="" width="100" style="margin-bottom: -50px;">
+            <img src="/img/Recurso 2@4x-8.png" style="margin-bottom: -100px;" alt="Logo Isaac y Lisbeth"
+                class="footer-logo">
+        </div>
+        <img src="/img/under.png" alt="" width="100%" style="margin-bottom: -60px;">
+    </div>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flipclock/0.7.8/flipclock.min.js"></script>
+<script>
+    function ver(id) {
+        console.log('sd')
+        swhitch()
+        // Obtén el checkbox por su ID dinámico
+        const checkbox = document.getElementById(`flexSwitchCheckSuccess-${id}`);
+        // Verifica si el checkbox está marcado o no
+        if (checkbox.checked) {
+            console.log('El checkbox está marcado');
+            // Aquí puedes ejecutar la lógica para cuando esté marcado
+        } else {
+            console.log('El checkbox NO está marcado');
+            // Aquí puedes ejecutar la lógica para cuando no esté marcado
+        }
+    }
+
+
+    $(document).ready(function () {
+            // Fecha objetivo
+            const weddingDate = new Date('Oct 12, 2024 00:00:00').getTime();
+            const now = new Date().getTime();
+            const remainingTimeInSeconds = Math.floor((weddingDate - now) / 1000);
+
+            // Inicializa el reloj con FlipClock.js
+            const daysClock = new FlipClock($('#days'), Math.floor(remainingTimeInSeconds / (60 * 60 * 24)), {
+                clockFace: 'Counter',
+                countdown: true
+            });
+
+            const hoursClock = new FlipClock($('#hours'), Math.floor((remainingTimeInSeconds % (60 * 60 * 24)) / (60 * 60)), {
+                clockFace: 'Counter',
+                countdown: true
+            });
+
+            const minutesClock = new FlipClock($('#minutes'), Math.floor((remainingTimeInSeconds % (60 * 60)) / 60), {
+                clockFace: 'Counter',
+                countdown: true
+            });
+
+            const secondsClock = new FlipClock($('#seconds'), remainingTimeInSeconds % 60, {
+                clockFace: 'Counter',
+                countdown: true
+            });
+
+            // Actualizar cada segundo
+            setInterval(function () {
+                const now = new Date().getTime();
+                const remainingTimeInSeconds = Math.floor((weddingDate - now) / 1000);
+
+                daysClock.setTime(Math.floor(remainingTimeInSeconds / (60 * 60 * 24)));
+                hoursClock.setTime(Math.floor((remainingTimeInSeconds % (60 * 60 * 24)) / (60 * 60)));
+                minutesClock.setTime(Math.floor((remainingTimeInSeconds % (60 * 60)) / 60));
+                secondsClock.setTime(remainingTimeInSeconds % 60);
+            }, 1000);
+        });
+    document.addEventListener('DOMContentLoaded', function () {
+        swhitch()
+    });
+    function swhitch(){
+        // Obtenemos los datos de invitados como JSON desde la plantilla
+        var invitados = JSON.parse('{{{jsEscape invitados1}}}');
+        invitados = JSON.parse(invitados)
+        window.ver = function (id) {
+            const checkbox = document.getElementById(`flexSwitchCheckSuccess-${id}`);
+            const nameContainer = document.getElementById(`name-container-${id}`);
+            const name = document.getElementById(`name-${id}`);
+            const row = document.getElementById(`row-${id}`);
+
+            if (checkbox.checked) {
+                checkbox.classList.remove('bg-danger');
+                checkbox.classList.add('bg-success');
+                nameContainer.innerHTML = `<strong class="text-success" id="name-${id}">${name.innerText}</strong>`;
+                checkbox.nextElementSibling.textContent = 'Asistiré';
+                checkbox.nextElementSibling.className = 'form-check-label text-success';
+            } else {
+                checkbox.classList.remove('bg-success');
+                checkbox.classList.add('bg-danger');
+                nameContainer.innerHTML = `<strong class="text-danger" id="name-${id}">${name.innerText}</strong>`;
+                checkbox.nextElementSibling.textContent = 'No Asistiré';
+                checkbox.nextElementSibling.className = 'form-check-label text-danger';
+            }
+
+            // Actualizar estado en el array de invitados
+            const invitado = invitados.find(inv => inv.id == id);
+            invitado.estado = checkbox.checked ? 'confirmado' : 'rechazado';
+        }
+
+        window.submitForm = function () {
+            const pendientes = invitados.filter(inv => inv.estado === 'pendiente');
+            var btn = document.getElementById('submit')
+            if (pendientes.length > 0) {
+                document.getElementById('message').innerHTML = '<div class="alert alert-danger">No debe haber ningún invitado sin confirmar o rechazar.</div>';
+            } else {
+                btn.disabled = true;
+                btn.innerHTML = `
+                    <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                    <span role="status">Enviando...</span>
+                `;
+                console.log(invitados);
+                socket.emit('client:confirmar', invitados)
+                document.getElementById('message').innerHTML = '<div class="alert alert-success">Se envió la confirmación.</div>';
+            }
+        }
+    }
+    socket.on('server:reload', () => {
+        location.reload()
+    })
+    function toggleCheckbox(id, event) {
+        // Verificar si el clic ocurrió sobre el checkbox o algún otro elemento de la fila
+        const checkbox = document.getElementById(`flexSwitchCheckSuccess-${id}`);
+
+        // Si el clic ocurrió fuera del checkbox, cambiar su estado
+        if (event.target !== checkbox) {
+            checkbox.checked = !checkbox.checked;  // Invertir el estado del checkbox
+        }
+
+        // Llamar a la función ver para ejecutar la lógica adicional
+        ver(id);
+    }
+
+
+
+    /*function actualizarTiempo() {
+        const fechaObjetivo = new Date('2024-10-12T00:00:00');
+        const ahora = new Date();
+        const diferencia = fechaObjetivo - ahora;
+
+        if (diferencia <= 0) {
+            document.getElementById('days').innerHTML = "00";
+            document.getElementById('hours').innerHTML = "00";
+            document.getElementById('minutes').innerHTML = "00";
+            document.getElementById('seconds').innerHTML = "00";
+            return;
+        }
+
+        const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+        const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+        const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+
+        document.getElementById('days').innerHTML = dias.toString().padStart(2, '0');
+        document.getElementById('hours').innerHTML = horas.toString().padStart(2, '0');
+        document.getElementById('minutes').innerHTML = minutos.toString().padStart(2, '0');
+        document.getElementById('seconds').innerHTML = segundos.toString().padStart(2, '0');
+    }
+
+    setInterval(actualizarTiempo, 1000);*/
+</script>

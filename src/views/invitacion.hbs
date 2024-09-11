@@ -1,0 +1,146 @@
+
+<style>
+   
+</style>
+
+
+<main class="main-content m-0 p-0">
+    <header class="header m-0 p-0 rounded">
+        <!-- Add content if needed -->
+    </header>
+    <img src="/img/Recurso 26@4x-8.png" alt="" width="100%" style="margin-top: -30px; position: relative; transform: rotate(180deg);">
+    <div class="names-date mx-auto">
+        <div class="col-md-7 mx-auto m-4">
+            <img src="/img/flores.png" alt="" width="100%" style="margin-top: -100px; position: relative;">
+            <img src="/img/anillos.png" alt="" width="100">
+                <div class="names dorado" style="text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.207);">
+                    Isaac 
+                    <span class="" style="font-size: 2rem; color: #9CAFB7;">y</span>
+                    Lisbeth
+                </div>
+                <div class="date"style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);">12 de Octubre 2024</div>
+            <img src="/img/flores.png" alt="" width="100%" style="transform: rotate(180deg); position: relative; z-index: 9;">
+        </div>
+    </div>
+    <img src="/img/Recurso 26@4x-8.png" alt="" width="100%" style="margin-top: -130px; position: relative;">
+    <div id="content" style="margin-top: -60px;">
+        <div class="conte"  style="margin-top: -10px;">
+            <div class="section-background mx-auto">
+Mateo 19:6 <br>
+Así que ya no son dos, sino una sola carne. Por lo tanto, lo que Dios ha unido, que no lo separe ningún hombre”.
+<hr>
+Eclesiastés 4:9, 10<br>
+Mejor son dos que uno solo, porque tienen un mayor beneficio por su duro trabajo.<br>
+Y es que, si uno de ellos cae, el otro puede ayudar a su compañero a levantarse. Pero ¿qué le pasará al que cae si no hay nadie que lo ayude?
+<hr>
+Génesis 2:18<br>
+Entonces Jehová Dios dijo: “No es bueno que el hombre siga solo. Voy a hacerle una ayudante que lo complemente”.
+<hr>
+                <div class="p-5"></div>
+                <div class="event col-md-6 mx-auto">
+                    <h3>Discurso Bíblico</h3>
+                    <p>Salón del Reino de los Testigos de Jehová en Quillacollo, a las 13:00.</p>
+                    <a href="#" class="map-link">Ver en Google Maps</a>
+                </div>
+                <div class="gold-divider col-md-4 mx-auto"></div>
+                <div class="event col-md-6 mx-auto">
+                    <h3>Recepción</h3>
+                    <p>LUXOR Eventos y Convenciones, a las 17:30.</p>
+                    <a href="#" class="map-link">Ver en Google Maps</a>
+                </div>
+                <div class="gold-divider col-md-4 mx-auto"></div>
+                <div class="event col-md-6 mx-auto">
+                    <h3>Confirma tu Asistencia</h3>
+                    <p>Ingresa el código que recibiste en tu invitación.</p>
+                    <div class="row justify-content-center">
+                        <div class="">
+                            <form action="/signin" method="post" onsubmit="return validarFormulario()">
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control form-control-sm" name="username" id="code"
+                                        placeholder="Ej: AB12" onkeyup="validar()" required>
+                                    <input type="text" value="pass" name="password" style="display: none;">
+                                    <button class="btn btn-warning btn-sm" type="submit" id="verificarBT">Ingresa el
+                                        codigo</button>
+                                </div>
+                                <div id="feedback" class="invalid-feedback" style="display: none;"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4"></div>
+            </div>
+        </div>
+    </div>
+    <img src="/img/Recurso 26@4x-8.png" alt="" width="100%" style="margin-top: -30px; position: relative; transform: rotate(180deg);">
+    <!--<img src="/img/Recurso 26@4x-8.png" alt="" width="100%" style="margin-top: -40px; transform: rotate(180deg);">-->
+    <div class="final" style="background-image: url('/img/background2-min.jpg'); margin-top: -80px;">
+        <div class="m-3 mt-5">
+                <div class="p-5"></div>
+            <p class="dress-code mt-5"><strong>Código de vestimenta:</strong> Formal o de gala</p>
+            <p class="no-kids">Agradecemos que los niños no asistan al evento.</p>
+            <img src="/img/anillos.png" alt="" width="100" style="margin-bottom: -50px;">
+            <img src="/img/Recurso 2@4x-8.png" style="margin-bottom: -140px;" alt="Logo Isaac y Lisbeth" class="footer-logo">
+        </div>
+        <img src="/img/under.png" alt="" width="100%" style="margin-bottom: -60px;">
+    </div>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    var btn = document.getElementById('verificarBT');
+
+    function verificar() {
+        var code = document.getElementById('code');
+        console.log(code.value.trim());
+        //code.disabled = true;
+        btn.disabled = true;
+        btn.innerHTML = `
+            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+            <span role="status">Validando...</span>
+        `;
+    }
+
+    function validar() {
+        var code = document.getElementById('code');
+        var value = code.value.toUpperCase().trim();
+        var errorMsg = '';
+
+        if (value.length !== 4) {
+            errorMsg = 'El código debe tener 4 caracteres.';
+        } else if (!/^[A-Z]{2}[0-9]{2}$/.test(value)) {
+            if (/[^A-Z0-9]/.test(value)) {
+                errorMsg = 'El código solo puede contener letras mayúsculas y números.';
+            } else {
+                errorMsg = 'El código debe ser 2 letras y 2 números.';
+            }
+        }
+
+        var feedback = document.getElementById('feedback');
+        if (errorMsg !== '') {
+            code.classList.remove('is-valid');
+            code.classList.add('is-invalid');
+            feedback.innerText = errorMsg;
+            feedback.style.display = 'block';
+            btn.disabled = true;
+            btn.className = 'btn btn-danger btn-sm';
+            btn.innerHTML = 'Revisa';
+
+        } else {
+            code.classList.remove('is-invalid');
+            code.classList.add('is-valid');
+            feedback.style.display = 'none';
+            btn.disabled = false;
+            btn.className = 'btn btn-success btn-sm';
+            btn.innerHTML = 'Verificar';
+        }
+        code.value = value;
+    }
+
+    function validarFormulario() {
+        validar();
+        var code = document.getElementById('code');
+        return code.classList.contains('is-valid');
+    }
+</script>

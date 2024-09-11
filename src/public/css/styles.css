@@ -1,0 +1,284 @@
+.form-group {
+    margin-top: 10px;
+}
+
+
+.navbar {
+    background: rgba(255, 255, 255, 0.483);
+    position: fixed;
+}
+
+.todoContenido {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+.container{
+    font-family: "Merriweather", serif;
+}
+#tiempo {
+    background: url('/img/cinta_2.png') no-repeat center center;
+    background-size: cover;
+}
+.index {
+    width: 100%;
+    height: 100vh;
+}
+
+body {
+    font-family: "Merriweather", serif;
+    background-color: #FFFFFF;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    background-image: url('/img/port-min.jpg');
+    background-color: #000000;
+    background-size: cover;
+    background-position: center;
+    /*height: 70vh;*/
+    height: 300px;
+    /*width: 70vh;*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #FFFFFF;
+    position: relative;
+}
+
+.final {
+    background-size: cover;
+    background-position: center;
+}
+
+.tran {
+    background-image: url('/img/Recurso 25@4x-8-min.png');
+    width: 100%;
+
+}
+
+#content {
+    background-color: #FFF;
+}
+
+.header::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0);
+    /* Overlay */
+    z-index: 3;
+}
+
+.bg-coral {
+    background: #FF6F61 !important;
+    color: white;
+}
+
+.fondo-bl {
+    background: rgba(255, 255, 255, 0.661);
+    border-radius: 10px;
+    margin-left: 10000px;
+}
+
+.names-date .names {
+    font-family: 'Allura', cursive;
+    font-size: 4rem;
+    color: #FF6F61;
+    /* Coral */
+    margin-top: -10px;
+    padding: 0;
+}
+
+.names-date .name {
+    font-family: 'Allura', cursive;
+    font-size: 3.5rem;
+    color: #FF6F61;
+    /* Coral */
+    margin-bottom: 0;
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.146);
+}
+
+.names-date .footer {
+    font-family: 'Allura', cursive;
+    font-size: 3rem;
+    color: #D4AF37;
+    /* Coral */
+    margin-bottom: 0;
+}
+
+.names-date .and {
+    font-size: 1.5rem;
+    /* Dorado */
+    font-family: 'Allura', cursive;
+}
+
+p {
+    margin: 0%;
+    padding: 0%;
+}
+
+.names-date .date {
+    font-family: 'Allura', cursive;
+    font-size: 2rem;
+    /*color: #9CAFB7;*/
+    /* Dorado */
+    margin-top: -20px;
+}
+
+.dorado {
+    color: #D4AF37;
+}
+.btn-dorado {
+    background-color: #D4AF37 !important;
+    color: white !important;
+    text-shadow: 1px 1px 2px #a07405 !important;
+    /* Agrega un delineado negro al texto */
+}
+.coral {
+    color: #FF6F61;
+}
+
+.main-content {
+    padding: 30px;
+    max-width: 900px;
+    margin: auto;
+    text-align: center;
+    background-color: #000000;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    margin-top: -50px;
+    position: relative;
+    z-index: 3;
+    /*border: 2px solid #D4AF37;
+     Dorado */
+}
+
+.event {
+    padding: 20px;
+    border-radius: 8px;
+    border: 0px solid#D4AF37;
+    /* Dorado */
+    background-color: #FFF;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+}
+
+.event p {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.event h3 {
+    font-size: 2rem;
+    color: #FF6F61;
+    /* Coral */
+    margin-bottom: 1rem;
+    font-family: 'Allura', cursive;
+}
+.texto {
+    color: #000000;
+    /* Coral */
+    margin-bottom: 1rem;
+    font-family: 'Arial', sans-serif;
+}
+
+.map-link {
+    color: #D4AF37;
+    /* Dorado */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.map-link:hover {
+    text-decoration: underline;
+}
+
+.dress-code {
+    font-size: 1.3rem;
+    color: #9CAFB7;
+    /* Verde Salvia */
+    margin-top: 1.5rem;
+    font-style: italic;
+}
+
+.no-kids {
+    font-size: 1.2rem;
+    color: #D3D3D3;
+    /* Gris Claro */
+    margin-top: 1rem;
+}
+
+.footer-logo {
+    width: 150px;
+    margin: 30px auto;
+    display: block;
+}
+
+.gold-divider {
+    width: 80%;
+    height: 2px;
+    background-color: #D4AF37;
+    background: url('/img/divide.png');
+    /* Dorado */
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+    margin: 20px auto;
+}
+
+.section-background {
+    background-image: url('/img/salvia2.jpg');
+    background-color: #FFE4E1;
+    /* Moca Claro */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.call {
+    padding: 0px;
+    margin: 0px;
+    display: flex;
+    align-items: center;
+    /* Centrar verticalmente */
+    justify-content: center;
+    /* Centrar horizontalmente */
+}
+
+.immm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('/img/Recurso 25@4x-8-min.png');
+    background-size: cover;
+    background-position: center;
+}
+.card{
+    background-color: #ffffff8f;
+}
+main{
+    font-family: "Merriweather", serif;
+    font-style: normal;
+    font-size: 1rem;
+    background-color: #000000;
+}
+.main{
+    font-size: 1rem;
+}
+#miTabla{
+    font-size: 0.8rem;
+}
+#miTabla2{
+    font-size: 0.8rem;
+}
+#miTabla3{
+    font-size: 0.8rem;
+}
+#miTabla0{
+    font-size: 0.8rem;
+}

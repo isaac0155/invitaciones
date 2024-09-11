@@ -1,0 +1,36 @@
+<div class="container p-4">
+    <div class="row">
+        <div class="card">
+            <a href="">Registrar nuevo invitado</a>
+        </div>
+    </div>
+    <div class="row">
+        <h3>Invitados Principales</h3>
+        {{#each principal}}
+        <p>{{nombre}}, {{estado}}, 
+            {{#if id_invitacion}}
+            Invitado
+            {{else}}
+            Aun no invitado
+            {{/if}}
+        </p>
+        {{else}}
+        no hay invitados principales
+        {{/each}}
+    </div>
+    <hr>
+    <div class="row">
+        <h3>Invitados de Reserva</h3>
+        {{#each reserva}}
+        <p>{{nombre}} {{estado}}
+            {{#if id_invitacion}}
+            Invitado
+            {{else}}
+            Aun no invitado
+            {{/if}}
+        </p>
+        {{else}}
+        no hay invitados de reserva
+        {{/each}}
+    </div>
+</div>

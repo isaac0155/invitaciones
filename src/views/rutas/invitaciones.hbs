@@ -1,0 +1,857 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Incluir jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
+<!-- Incluir Popper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Incluir Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+<!-- Incluye Bootstrap Table JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.18.0/bootstrap-table.min.js"></script>
+
+<!-- Incluye Bootstrap Table CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.18.0/bootstrap-table.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+
+<div class="container p-4">
+    <div class="row names-date text-center">
+        <h5 class="name">Invitaciones</h5>
+        <div class="card">
+            <strong>Totales</strong>
+            <P class="text-success">
+                Confirmados: {{confirmados}}
+            </P>
+            <P class="text-secondary">
+                Pendientes: {{pendientes}}
+               <span class="text-danger"> - Rechazados: {{rechazados}}</span>
+            </P>
+        </div>
+        <div class="p-2"></div>
+        <a href="#" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Registrar
+            nueva invitacion</a>
+    </div>
+    <br>
+        <!-- Invitaciones Zoom -->
+        <div class="row">
+            <hr>
+            <h3 class="text-primary">Zoom ({{zoom.length}})</h3>
+            <div class="table-responsive">
+                <table class="table table-sm align-middle table-bordered table-striped" id="miTabla0">
+                    <thead class="table-primary">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Invitación</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Código</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each zoom}}
+                        <tr>
+                            <th scope="row">{{increment @index}}</th>
+                            <td>
+                                <a href="#{{id}}" onclick="opciones({{id}})" data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop2">
+                                    {{nombre}}
+                                    
+                                </a>
+                            </td>
+                            <td>
+                                {{#if invitado}}<span class="text-success">Invitado</span>{{else}}<span class="text-danger">Pendiente</span>{{/if}}
+
+                            </td>
+                            <td>
+                                <strong>{{codigo}}</strong>
+
+                            </td>
+                        </tr>
+                        {{else}}
+                        <tr>
+                            <td colspan="5" class="text-center">No hay invitaciones zoom.</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+    <!-- Invitaciones Pendientes -->
+    <div class="row mt-5">
+        <hr>
+        <h3 class="text-secondary">Invitaciones Pendientes ({{invitacionPendiente.length}})</h3>
+        <div class="table-responsive">
+            <table class="table table-sm align-middle table-bordered table-striped" id="miTabla">
+                <thead>
+                    <tr class="table-dark">
+                        <th scope="col">#</th>
+                        <th scope="col">Invitación</th>
+                        <th scope="col">N°</th>
+                        <th scope="col">Status</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each invitacionPendiente}}
+                    <tr>
+                        <th scope="row">{{increment @index}}</th>
+                        <td>
+                            <a href="#{{id}}" onclick="opciones({{id}})" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
+                                {{nombre}}
+                                <br>
+                            </a>
+                            {{#if invitado}}<span class="text-success">Invitado</span>{{else}}<span class="text-danger">Pendiente</span>{{/if}} <br>
+                            <strong>{{codigo}}</strong>
+                        </td>
+                        <td>{{total_invitados}}</td>
+                        <td>
+                            <span class="text-danger">Rech: {{invitados_rechazados}}</span><br>
+                            <span class="text-success">Acep: {{invitados_aceptados}}</span><br>
+                            <span class="text-secondary">Pend: {{invitados_pendientes}}</span>
+                        </td>
+                        <td>
+                            {{#each invitados}}
+                            <span class="text-{{#equals estado 'confirmado'}}success{{/equals}}{{#equals estado 'rechazado'}}danger{{/equals}}{{#equals estado 'pendiente'}}secondary{{/equals}}">{{nombre}}</span><br>
+                            {{else}}
+                            --
+                            {{/each}}
+                        </td>
+                    </tr>
+                    {{else}}
+                    <tr>
+                        <td colspan="5" class="text-center">No hay invitaciones pendientes.</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <hr>
+    <!-- Invitaciones Aceptadas -->
+    <div class="row mt-5">
+        <h3 class="text-success">Invitaciones Aceptadas ({{invitacionConfirmado.length}})</h3>
+        <div class="table-responsive">
+            <table class="table table-sm align-middle table-bordered table-striped" id="miTabla2">
+                <thead>
+                    <tr class="table-success">
+                        <th scope="col">#</th>
+                        <th scope="col">Invitación</th>
+                        <th scope="col">N°</th>
+                        <th scope="col">Status</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each invitacionConfirmado}}
+                    <tr class="table-success">
+                        <th scope="row">{{increment @index}}</th>
+                        <td>
+                            <a href="#{{id}}" onclick="opciones({{id}})" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
+                                {{nombre}}
+                                <br>
+                            </a>
+                            <strong>{{codigo}}</strong>
+                        </td>
+                        <td>{{total_invitados}}</td>
+                        <td>
+                            <span class="text-danger">Rech: {{invitados_rechazados}}</span><br>
+                            <span class="text-success">Acep: {{invitados_aceptados}}</span><br>
+                            <span class="text-secondary">Pend: {{invitados_pendientes}}</span>
+                        </td>
+                        <td>
+                            {{#each invitados}}
+                            <span
+                                class="text-{{#equals estado 'confirmado'}}success{{/equals}}{{#equals estado 'rechazado'}}danger{{/equals}}{{#equals estado 'pendiente'}}secondary{{/equals}}">{{nombre}}</span><br>
+                            {{else}}
+                            --
+                            {{/each}}
+                        </td>
+                    </tr>
+                    {{else}}
+                    <tr>
+                        <td colspan="5" class="text-center">No hay invitaciones aceptadas.</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <hr>
+
+    <!-- Invitaciones Rechazadas -->
+    <div class="row mt-5">
+        <h3 class="text-danger">Invitaciones Rechazadas ({{invitacionRechazado.length}})</h3>
+        <div class="table-responsive">
+            <table class="table table-sm align-middle table-bordered table-striped" id="miTabla3">
+                <thead>
+                    <tr class="table-danger">
+                        <th scope="col">#</th>
+                        <th scope="col">Invitación</th>
+                        <th scope="col">N°</th>
+                        <th scope="col">Status</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each invitacionRechazado}}
+                    <tr class="table-danger">
+                        <th scope="row">{{increment @index}}</th>
+                        <td>
+                            <a href="#{{id}}" onclick="opciones({{id}})" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">
+                                {{nombre}}
+                                <br>
+                            </a>
+                            <strong>{{codigo}}</strong>
+                        </td>
+                        <td>{{total_invitados}}</td>
+                        <td>
+                            <span class="text-danger">Rech: {{invitados_rechazados}}</span><br>
+                            <span class="text-success">Acep: {{invitados_aceptados}}</span><br>
+                            <span class="text-secondary">Pend: {{invitados_pendientes}}</span>
+                        </td>
+                        <td>
+                            {{#each invitados}}
+                            <span
+                                class="text-{{#equals estado 'confirmado'}}success{{/equals}}{{#equals estado 'rechazado'}}danger{{/equals}}{{#equals estado 'pendiente'}}secondary{{/equals}}">{{nombre}}</span><br>
+                            {{else}}
+                            --
+                            {{/each}}
+                        </td>
+                    </tr>
+                    {{else}}
+                    <tr>
+                        <td colspan="5" class="text-center">No hay invitaciones rechazadas.</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <hr>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Registrar Nueva Invitación</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formNuevaInvitacion">
+                    <!-- Código de Invitación -->
+                    <div class="mb-3">
+                        <label for="codigoInvitacion" class="form-label">Código de Invitación</label>
+                        <input type="text" class="form-control" id="codigoInvitacion" maxlength="4" placeholder="Ej: AZ10" required>
+                        <div id="codigoFeedback" class="invalid-feedback">Código no válido o ya en uso.</div>
+                    </div>
+                    <!-- Nombre de la Invitación -->
+                    <div class="mb-3">
+                        <label for="nombreInvitacion" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombreInvitacion" placeholder="Nombre de la Invitación" required>
+                    </div>
+                    <!-- Lista de Personas -->
+                    <div id="personasContainer">
+                        <label class="form-label">Personas Asignadas</label>
+                        <label class="text-danger">Si no asigna personas, se crea una invitación Zoom.</label>
+                        <div class="input-group mb-3 persona-item">
+                            <input type="text" class="form-control" placeholder="Nombre de la persona"
+                                name="personaNombre[]" required>
+                            <button type="button" class="btn btn-danger btn-remove-persona">X</button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary" id="btnAddPersona">+</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="btnGuardarInvitacion">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel2" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel2">Opciones de Invitacion</h1>
+                <button type="button" class="btn-close" onclick="restaurar(); recargar1()" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="invitados-conent">
+                    <h3 id="nombre"></h3><label id="editar_invitacion"></label>
+                    <a href="#" class="btn btn-sm btn-danger" id="modificar23"></a><br>
+                    <hr>
+                    <label id="invitado_invitacion"></label><br><br>
+                    Contacto: <label id="newcontact"><a href="" id="contacto_ct"></a> / <a href="" id="contacto_invitar"></a> / <a href="" id="contacto_llamar"></a></label><br><br>
+                    Estado: <label id="status"></label><br>
+                    Cantidad de invitados: <label id="cantidad"></label><br>
+                    Lista de Invitados: 
+                    <br>
+                    <div class="list-group list-group-numbered" id="invitados">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" onclick="restaurar(); recargar1()" data-bs-dismiss="modal">Cerrar</button>
+                <!--<button type="button" class="btn btn-primary" id="btnGuardarInvitacion">Guardar</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let recargar = false
+    function recargar1(){
+        if(recargar){
+
+        location.reload();
+        }
+
+
+    }
+    function restaurar(){
+        let invitados_conent = document.getElementById('invitados-conent')
+        invitados_conent.innerHTML = `
+            <h3 id="nombre"></h3><label id="editar_invitacion"></label>
+            <a href="#" class="btn btn-sm btn-danger" id="modificar23"></a><br>
+            <hr>
+            <label id="invitado_invitacion"></label><br><br>
+            Contacto: <label id="newcontact"><a href="" id="contacto_ct"></a> / <a href="" id="contacto_invitar"></a> / <a href="" id="contacto_llamar"></a></label><br><br>
+            Estado: <label id="status"></label><br>
+            Cantidad de invitados: <label id="cantidad"></label><br>
+            Lista de Invitados:
+            <br>
+            <div class="list-group list-group-numbered" id="invitados">
+            </div>
+        `;
+    }
+    document.addEventListener('DOMContentLoaded', function () {
+        const socket = io(); // Asumiendo que socket.io ya está configurado
+
+        // Validación en tiempo real del código de invitación
+        const codigoInvitacionInput = document.getElementById('codigoInvitacion');
+
+        codigoInvitacionInput.addEventListener('input', function () {
+            // Convertir a mayúsculas
+            let valor = codigoInvitacionInput.value.toUpperCase();
+
+            // Limitar el valor al patrón: 2 letras seguidas de 2 números
+            const regexLetras = /^[A-Z]{0,2}/; // Permite hasta 2 letras
+            const regexNumeros = /[0-9]{0,2}$/; // Permite hasta 2 números
+
+            // Extraer las letras y los números según las restricciones
+            const letras = (valor.match(regexLetras) || [''])[0];
+            const numeros = (valor.match(regexNumeros) || [''])[0];
+
+            // Actualizar el valor del input con las letras y números permitidos
+            codigoInvitacionInput.value = letras + numeros;
+
+            // Validar si el valor cumple exactamente con el formato esperado
+            const regexFinal = /^[A-Z]{2}[0-9]{2}$/;
+
+            if (regexFinal.test(codigoInvitacionInput.value)) {
+                socket.emit('validarCodigoInvitacion', codigoInvitacionInput.value);
+            } else {
+                mostrarFeedbackInvalido('Código no válido');
+            }
+        });
+
+        socket.on('validarCodigoInvitacion', function (data) {
+            if (data.existe) {
+                mostrarFeedbackInvalido('El código ya está en uso.');
+            } else {
+                ocultarFeedbackInvalido();
+            }
+        });
+
+        function mostrarFeedbackInvalido(mensaje) {
+            const feedback = document.getElementById('codigoFeedback');
+            feedback.textContent = mensaje;
+            codigoInvitacionInput.classList.add('is-invalid');
+        }
+
+        function ocultarFeedbackInvalido() {
+            codigoInvitacionInput.classList.remove('is-invalid');
+        }
+
+        // Validación en tiempo real del nombre de la invitación
+        const nombreInvitacionInput = document.getElementById('nombreInvitacion');
+
+        nombreInvitacionInput.addEventListener('input', function () {
+            const nombre = nombreInvitacionInput.value.trim();
+
+            if (nombre.length > 0) {
+                socket.emit('validarNombreInvitacion', nombre);
+            }
+        });
+
+        socket.on('validarNombreInvitacion', function (data) {
+            if (data.existe) {
+                nombreInvitacionInput.classList.add('is-invalid');
+                mostrarNombreInvalido('El nombre de la invitación ya existe.');
+            } else {
+                nombreInvitacionInput.classList.remove('is-invalid');
+                ocultarNombreInvalido();
+            }
+        });
+
+        function mostrarNombreInvalido(mensaje) {
+            let feedback = document.getElementById('nombreFeedback');
+            if (!feedback) {
+                feedback = document.createElement('div');
+                feedback.id = 'nombreFeedback';
+                feedback.className = 'invalid-feedback';
+                nombreInvitacionInput.parentNode.appendChild(feedback);
+            }
+            feedback.textContent = mensaje;
+        }
+
+        function ocultarNombreInvalido() {
+            const feedback = document.getElementById('nombreFeedback');
+            if (feedback) {
+                feedback.textContent = '';
+            }
+        }
+
+        // Agregar persona dinámicamente
+        const btnAddPersona = document.getElementById('btnAddPersona');
+        const personasContainer = document.getElementById('personasContainer');
+
+        btnAddPersona.addEventListener('click', function () {
+            const personaItem = document.createElement('div');
+            personaItem.className = 'input-group mb-3 persona-item';
+            personaItem.innerHTML = `
+            <input type="text" class="form-control form-control-sm" placeholder="Nombre de la persona" name="personaNombre[]" required>
+            <button type="button" class="btn btn-danger btn-sm btn-remove-persona">X</button>
+        `;
+            personasContainer.appendChild(personaItem);
+
+            // Añadir event listener para eliminar
+            personaItem.querySelector('.btn-remove-persona').addEventListener('click', function () {
+                personaItem.remove();
+            });
+        });
+
+        // Guardar la invitación
+        const btnGuardarInvitacion = document.getElementById('btnGuardarInvitacion');
+        btnGuardarInvitacion.addEventListener('click', function () {
+            const codigo = codigoInvitacionInput.value;
+            const nombre = nombreInvitacionInput.value;
+            const personas = [...document.getElementsByName('personaNombre[]')].map(input => input.value);
+
+            if (codigo && nombre && personas.length > 0 && !codigoInvitacionInput.classList.contains('is-invalid') && !nombreInvitacionInput.classList.contains('is-invalid')) {
+                const data = {
+                    codigo: codigo,
+                    nombre: nombre,
+                    personas: personas
+                };
+
+                socket.emit('guardarInvitacion', data);
+            }
+        });
+
+        socket.on('guardarInvitacion', function (data) {
+            if (data.exito) {
+                alert('Invitación guardada con éxito');
+                location.reload(); // Recargar la página para reflejar cambios
+            } else {
+                alert('Error al guardar la invitación.');
+            }
+        });
+    });
+    $(function () {
+        $('#miTabla').bootstrapTable({
+            pagination: true,
+            sortable: true,
+            search: true
+        });
+    });
+    $(function () {
+        $('#miTabla0').bootstrapTable({
+            pagination: true,
+            sortable: true,
+            search: true
+        });
+    });
+    $(function () {
+        $('#miTabla2').bootstrapTable({
+            pagination: true,
+            sortable: true,
+            search: true
+        });
+    });
+    $(function () {
+        $('#miTabla3').bootstrapTable({
+            pagination: true,
+            sortable: true,
+            search: true
+        });
+    });
+
+    function opciones(id){
+        restaurar()
+        document.getElementById('invitados').innerHTML=`<div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>`
+        document.getElementById('cantidad').innerHTML=''
+        document.getElementById('status').innerHTML=''
+        document.getElementById('nombre').innerHTML=''
+        document.getElementById('invitado_invitacion').innerHTML=''
+        document.getElementById('modificar23').innerHTML=''
+        document.getElementById('editar_invitacion').innerHTML=''
+        socket.emit('cliente:getinvitacion', id)
+        let newcontact = document.getElementById('newcontact').innerHTML = '<a href="" id="contacto_ct"></a> / <a href="" id="contacto_invitar"></a> / <a href="" id="contacto_llamar"></a>'
+    }
+    socket.on('server:getinvitacion', (invitacion, personas)=>{
+        let invitados = document.getElementById('invitados')
+        let cantidad = document.getElementById('cantidad')
+        let status = document.getElementById('status')
+        let nombre = document.getElementById('nombre')
+        let modificar23 = document.getElementById('modificar23')
+        let contacto_ct = document.getElementById('contacto_ct')
+        let newcontact = document.getElementById('newcontact')
+        let contacto_invitar = document.getElementById('contacto_invitar')
+        let contacto_llamar = document.getElementById('contacto_llamar')
+        let invitado_invitacion = document.getElementById('invitado_invitacion')
+        let editar_invitacion = document.getElementById('editar_invitacion')
+
+
+
+        if (invitacion.estado === 'pendiente') {
+            invitado_invitacion.innerHTML = `
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" ${invitacion.invitado == 0 ? '' : 'checked'} id="invitado_check" onclick="cambiarEstadoInvitacion(${invitacion.id})">
+                    <label class="form-check-label ${invitacion.invitado == 0 ? 'text-danger' : 'text-success'}" for="invitado_check" id="texto_invitado_check">${invitacion.invitado == 0 ? 'NO SE ENVIÓ LA INVITACIÓN' : 'SE ENVIÓ LA INVITACIÓN'}</label>
+                </div>
+            `;
+            editar_invitacion.innerHTML = `
+                <a href="#" onclick="editarinvitacion(${invitacion.id})" class="btn btn-sm btn-warning" id="btn-edit">Editar Invitacion <img src="/img/editar.png" width="20"></a>
+            `;
+        }else{
+            invitado_invitacion.innerHTML = `
+                <span class="text-success"><strong>SE ENVIÓ LA INVITACIÓN</strong></span>
+            `;
+        }
+
+
+
+        if(invitacion.contacto){
+            contacto_ct.innerHTML = `Conversar`
+            contacto_ct.className = 'btn btn-sm btn-secondary'
+            contacto_ct.href = `https://wa.me/591${invitacion.contacto}`
+
+            contacto_invitar.innerHTML = `Mandar Invitación`
+            contacto_invitar.className = 'btn-success btn btn-sm'
+            const mensaje = `${invitacion.nombre},\n\n💖 Con mucha alegría, queremos invitarlos a compartir con nosotros un día muy especial en nuestras vidas, *nuestra boda*.\n\n*Isaac & Lisbeth*\n📅 Nos casamos el *día sábado 12 de octubre* 💍 y sería un honor contar con su presencia en este evento tan significativo.\n\nTodos los detalles de la boda están disponibles en nuestra invitación virtual:\n\n*https://isaaclisbeth.com*\n\nPara acceder, solo deben ingresar el siguiente código de autenticación:\n\n*Código: ${invitacion.codigo}*\n\nLes pedimos que confirmen su asistencia a través del enlace mencionado.\n\n¡Esperamos contar con ustedes en este día tan especial!\n\nCon cariño,\n*Isaac & Lisbeth*`;
+            contacto_invitar.href = `https://wa.me/591${invitacion.contacto}?text=${encodeURIComponent(mensaje)}`;
+
+
+            contacto_llamar.innerHTML = `Llamar`
+            contacto_llamar.className = 'btn btn-sm btn-secondary'
+            contacto_llamar.href = `tel:${invitacion.contacto}`;
+
+        }else{
+            contacto_ct.innerHTML = `Agregar contacto`
+            contacto_ct.className = 'btn-danger btn btn-sm'
+            contacto_ct.href = `#`
+            contacto_ct.onclick = function(){
+                newcontact.innerHTML = `
+                    <div class="input-group mb-3">
+                        <input type="number" class="form-control form-control-sm" name="username" id="contact_new"
+                            placeholder="Ej: 65847151" onkeyup="validar()" required autofocus>
+
+                        <button class="btn btn-sm btn-success" type="" disabled onclick="contact_new(${invitacion.id})" id="guardar_contact">Guardar</button>
+                        <button class="btn btn-sm btn-danger" type="" onclick="opciones(${invitacion.id})" id="">Cancelar</button>
+                    </div>
+                    <div id="feedback" style="display:none; color:red;"></div>
+                `
+            }
+        }
+        nombre.innerHTML = '<strong>' + invitacion.nombre + '</strong> - ' + invitacion.codigo
+        status.innerHTML =  `<span class="${invitacion.estado == 'confirmado' ? 'text-success' : (invitacion.estado == 'pendiente' ? 'text-secondary' : 'text-danger')}">${invitacion.estado}</span><br>` 
+        cantidad.innerHTML = personas.length
+        invitados.innerHTML = ''
+        personas.forEach(element=>{
+            invitados.innerHTML += `<li class="list-group-item list-group-item-${element.estado == 'confirmado' ? 'success': (element.estado == 'pendiente' ? 'secondary': 'danger')}">${element.nombre}</li>` 
+            
+                
+        })
+        modificar23.style.display = invitacion.estado == 'pendiente' ? 'none' : ''
+        modificar23.innerHTML = 'Reiniciar de esta Invitación'
+        modificar23.onclick = function () {
+            reset(invitacion.id);
+            location.reload()
+        };
+    })
+    function reset(id){
+        if(confirm('Seguro de reiniciar Invitacion?')){
+            socket.emit('cliente:resetInvitacion', id)
+        }
+    }
+    socket.on('notification', (msg, id)=>{
+        //alert(msg)
+        opciones(id)
+    })
+
+    function validar() {
+        var code = document.getElementById('contact_new');
+        var value = code.value.trim();
+        var errorMsg = '';
+
+        // Verificar si es un número positivo de 8 dígitos
+        if (!/^[0-9]{8}$/.test(value)) {
+            if (value.length !== 8) {
+                errorMsg = 'El número debe tener exactamente 8 cifras.';
+            } else if (parseInt(value) <= 0) {
+                errorMsg = 'El número debe ser positivo.';
+            } else {
+                errorMsg = 'Solo se permiten números.';
+            }
+        }
+
+        var feedback = document.getElementById('feedback');
+        var btn = document.getElementById('guardar_contact'); // Botón para habilitar o deshabilitar
+
+        if (errorMsg !== '') {
+            code.classList.remove('is-valid');
+            code.classList.add('is-invalid');
+            feedback.innerText = errorMsg;
+            feedback.style.display = 'block';
+            btn.disabled = true;
+            btn.className = 'btn btn-danger btn-sm';
+            btn.innerHTML = 'Revisa';
+        } else {
+            code.classList.remove('is-invalid');
+            code.classList.add('is-valid');
+            feedback.style.display = 'none';
+            btn.disabled = false;
+            btn.className = 'btn btn-success btn-sm';
+            btn.innerHTML = 'Guardar';
+        }
+    }
+    function contact_new(id_invitacion){
+        let contact_new = document.getElementById('contact_new').value
+        var btn = document.getElementById('guardar_contact'); // Botón para habilitar o deshabilitar
+        btn.disabled = true;
+        btn.innerHTML = `
+            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+            <span role="status">Guardando...</span>
+        `;
+        //console.log(contact_new)
+        socket.emit('client:contact_new', id_invitacion, contact_new)
+    }
+    // Definir la función para el evento onclick
+    function cambiarEstadoInvitacion(id) {
+        const checkbox = document.getElementById('invitado_check');
+        const label = document.getElementById('texto_invitado_check');
+
+        if (checkbox.checked) {
+            label.textContent = 'SE ENVIÓ LA INVITACIÓN';
+            label.classList.remove('text-danger');
+            label.classList.add('text-success');
+            socket.emit('cliente:invitado_check', id, true)
+        } else {
+            label.textContent = 'NO SE ENVIÓ LA INVITACIÓN';
+            label.classList.remove('text-success');
+            label.classList.add('text-danger');
+            socket.emit('cliente:invitado_check', id, false)
+        }
+        recargar = true
+    }
+
+    function editarinvitacion(id){
+        document.getElementById('btn-edit').innerHTML = `
+            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+            <span role="status">Cargando...</span>
+        `;
+        document.getElementById('btn-edit').onclick = ''
+        document.getElementById('btn-edit').className = 'btn btn-sm btn-secondary'
+        socket.emit('client:getinvitados', id)
+    }
+
+    socket.on('server:invitados', (invitados, invitacion) => {
+        console.log(invitados, invitacion);
+        document.getElementById('btn-edit').innerHTML = `
+            Editar Invitacion <img src="/img/editar.png" width="20">
+        `;
+
+        let invitadosConent = document.getElementById('invitados-conent');
+
+        // Array para almacenar los nuevos invitados antes de guardarlos
+        let nuevosInvitados = [];
+
+        function renderizarInvitados() {
+            let contenidoInvitado = '';
+            invitados.forEach((invitado, index) => {
+                contenidoInvitado += `
+                    <tr data-invitado-id="${invitado.id}">
+                    <th scope="row">${index + 1}</th>
+                    <td><input type="text" class="form-control form-control-sm" value="${invitado.nombre}"></td>
+                    <td><button type="button" class="btn btn-danger btn-sm btn-eliminar">X</button></td>
+                    </tr>
+                `;
+            });
+
+            invitadosConent.innerHTML = `
+            <h3 class="coral">Editar Invitacion <br> ${invitacion.nombre}</h3>
+            <br>
+            <br>
+            <!-- Nombre de la Invitación -->
+            <div class="mb-3">
+                <label for="name_inv" class="form-label"><strong>Nombre Invitacion</strong></label>
+                <input type="text" class="form-control form-control-sm" id="name_inv" placeholder="Nombre de la Invitación" value="${invitacion.nombre}" required>
+            </div>
+            <div class="mb-3">
+                <label for="contacto_inv" class="form-label"><strong>Contacto</strong></label>
+                <input type="number" class="form-control form-control-sm" id="contacto_inv" placeholder="Contacto de la Invitación" value="${invitacion.contacto}" required>
+            </div>
+            <!-- Código de Invitación -->
+            <div class="mb-3">
+                <label for="code_invi" class="form-label"><strong>Código de Invitación</strong></label>
+                <input type="text" class="form-control form-control-sm" id="code_invi" maxlength="4" placeholder="Ej: AZ10" value="${invitacion.codigo}" readonly>
+            </div>
+            <!-- Lista de Personas -->
+            <div id="person">
+                <table class="table table-sm table-hover">
+                <thead>
+                    <tr class="table-dark">
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Opcion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${contenidoInvitado}
+                </tbody>
+                </table>
+            </div>
+            <button class="btn btn-secondary mt-3" id="btnAgregarPersona">+</button><br><br>
+            <button class="btn btn-secondary" onclick="opciones(${invitacion.id})">Volver</button>
+            <button class="btn btn-success" id="btnGuardarInvitacion2">Guardar</button>
+            `;
+
+            // Agregar un botón para añadir nuevas personas
+            /*invitadosConent.innerHTML += `
+                <button class="btn btn-primary mt-3" id="btnAgregarPersona">Agregar Persona</button>
+            `;*/
+
+            // Asociar eventos después de renderizar la tabla
+            asociarEventosTabla();
+
+            // Manejar evento click del botón "Agregar Persona"
+            const btnAgregarPersona = document.getElementById('btnAgregarPersona');
+            btnAgregarPersona.addEventListener('click', () => {
+                agregarNuevaFila();
+            });
+        }
+
+        function asociarEventosTabla() {
+            // Eliminar Invitado
+            const botonesEliminar = document.querySelectorAll('.btn-eliminar');
+            botonesEliminar.forEach(boton => {
+                boton.addEventListener('click', (event) => {
+                    const invitadoId = event.target.closest('tr').dataset.invitadoId;
+                    socket.emit('cliente:eliminarInvitado', invitacion.id, invitadoId);
+                    recargar = true
+                });
+            });
+
+            // Editar Invitado (al perder el foco del input)
+            const inputsNombre = document.querySelectorAll('#person tbody input[type="text"]');
+            inputsNombre.forEach(input => {
+                input.addEventListener('change', (event) => {
+                    const invitadoId = event.target.closest('tr').dataset.invitadoId;
+                    const nuevoNombre = event.target.value;
+                    socket.emit('cliente:editarInvitado', invitacion.id, invitadoId, nuevoNombre);
+                    recargar = true
+                });
+            });
+
+            // Guardar Cambios en la Invitación y Nuevos Invitados
+            const btnGuardarInvitacion = document.getElementById('btnGuardarInvitacion2');
+            btnGuardarInvitacion.addEventListener('click', () => {
+                console.log("Guardando los datos...");
+
+                // 1. Guardar cambios en la invitación existente
+                const nombreInvitacion = document.getElementById('name_inv').value;
+                const contactoInvitacion = document.getElementById('contacto_inv').value;
+                socket.emit('cliente:guardarInvitacion', invitacion.id, nombreInvitacion, contactoInvitacion);
+
+                // 2. Guardar nuevos invitados
+                nuevosInvitados.forEach(nuevoInvitado => {
+                    if (nuevoInvitado.nombre !== "") {
+                        console.log("Agregando nuevo invitado:", nuevoInvitado);
+                        console.log(nuevosInvitados)
+                        socket.emit('cliente:agregarInvitado', nuevoInvitado);
+                    }
+                });
+
+                // 3. Limpiar el array de nuevos invitados y las filas
+                nuevosInvitados = [];
+                document.querySelectorAll('.nueva-fila').forEach(fila => fila.remove());
+                recargar = true
+            });
+
+
+        }
+
+        function agregarNuevaFila() {
+            const tablaInvitados = document.querySelector('#person tbody');
+            const nuevaFila = document.createElement('tr');
+            nuevaFila.classList.add('nueva-fila'); // Agregar la clase
+            nuevaFila.innerHTML = `
+                <td></td>
+                <td class="bg-warning"><input type="text" class="form-control form-control-sm" placeholder="Nombre"></td>
+                <td><button type="button" class="btn btn-danger btn-sm btn-eliminar-nuevo">X</button></td>
+                `;
+            tablaInvitados.appendChild(nuevaFila);
+
+            const inputNombre = nuevaFila.querySelector('input');
+
+            // Guardar el valor inicial en el array nuevosInvitados
+            const nuevoInvitado = { nombre: '', id_invitacion: invitacion.id };
+            nuevosInvitados.push(nuevoInvitado);
+
+            // Asociar evento input para actualizar el nombre en el array de nuevos invitados
+            inputNombre.addEventListener('input', (event) => {
+                nuevoInvitado.nombre = event.target.value.trim(); // Actualizar el nombre en el array
+            });
+
+            // Asociar evento al botón "X" para eliminar la fila nueva
+            const btnEliminarNuevo = nuevaFila.querySelector('.btn-eliminar-nuevo');
+            btnEliminarNuevo.addEventListener('click', () => {
+                tablaInvitados.removeChild(nuevaFila);
+                const index = nuevosInvitados.indexOf(nuevoInvitado);
+                if (index > -1) {
+                    nuevosInvitados.splice(index, 1); // Eliminar del array si se elimina la fila
+                }
+            });
+        }
+
+
+        // Llama a renderizarInvitados para que cree la tabla y asocie los eventos
+        renderizarInvitados();
+    });
+
+    socket.on('server:actualizarInvitados', (id) => {
+        restaurar();
+        let editar_invitacion = document.getElementById('editar_invitacion');
+        editar_invitacion.innerHTML = `
+            <a href="#" onclick="" class="btn btn-sm btn-warning" id="btn-edit">
+            Editar Invitacion <img src="/img/editar.png" width="20">
+            </a>
+        `;
+        editarinvitacion(id);
+    });
+</script>
